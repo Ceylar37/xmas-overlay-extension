@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
 
-import manifest from './manifest.json';
+import manifest from './manifest.config';
 
 // https://vite.dev/config/
 export default defineConfig({

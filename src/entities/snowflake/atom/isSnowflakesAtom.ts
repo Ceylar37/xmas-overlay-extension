@@ -23,8 +23,8 @@ const updateIsSnowflakes = reatomAsync(
   {
     name: 'updateIsSnowflakes',
     onEffect(ctx) {
-      const isFireworks = ctx.get(isSnowflakesAtom.dataAtom);
-      isSnowflakesAtom.dataAtom(ctx, !isFireworks);
+      const isChristmasLights = ctx.get(isSnowflakesAtom.dataAtom);
+      isSnowflakesAtom.dataAtom(ctx, !isChristmasLights);
     }
   }
 );

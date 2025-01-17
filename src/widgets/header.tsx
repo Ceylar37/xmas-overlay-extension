@@ -9,8 +9,8 @@ const navElements = [
     path: '/'
   },
   {
-    name: 'Fireworks',
-    path: '/fireworks'
+    name: 'Christmas Lights',
+    path: '/christmasLights'
   }
 ] as const;
 

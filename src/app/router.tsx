@@ -1,6 +1,6 @@
-import { createMemoryRouter, Location, Outlet } from 'react-router-dom';
+import { createMemoryRouter, Location, Navigate, Outlet } from 'react-router-dom';
 
-import { Fireworks, Snowflakes } from '../pages';
+import { ChristmasLights, Snowflakes } from '../pages';
 import { Layout } from '../widgets';
 
 const router = createMemoryRouter([
@@ -11,14 +11,15 @@ const router = createMemoryRouter([
         <Outlet />
       </Layout>
     ),
+    errorElement: <Navigate to='/' />,
     children: [
       {
         index: true,
         element: <Snowflakes />
       },
       {
-        path: '/fireworks',
-        element: <Fireworks />
+        path: '/christmasLights',
+        element: <ChristmasLights />
       }
     ]
   }

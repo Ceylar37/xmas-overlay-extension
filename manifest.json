@@ -1,5 +1,5 @@
 {
-  "name": "xmas-overlay",
+  "name": "Xmas-Overlay",
   "description": "Adds a Christmas overlay to the page",
   "version": "1.0",
   "manifest_version": 3,
@@ -16,7 +16,7 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["src/content-scripts/snowflakes.ts", "src/content-scripts/fireworks.ts"],
+      "js": ["src/content-scripts/snowflakes.ts", "src/content-scripts/christmas-lights.ts"],
       "run_at": "document_start"
     }
   ]

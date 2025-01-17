@@ -1,9 +1,9 @@
 import { FIREWORK_PAIRS, SNOWFLAKE_PAIRS } from '@/entities';
 import { HandlerFromPair } from '@/shared/lib/utils';
 
-import { handleGetFireworks } from './handle-get-fireworks';
+import { handleGetChristmasLights } from './handle-get-christmas-ligths';
 import { handleGetSnowflakes } from './handle-get-snowflakes';
-import { handleToggleFireworks } from './handle-toggle-fireworks';
+import { handleToggleChristmasLights } from './handle-toggle-christmas-ligths';
 import { handleToggleSnowflakes } from './handle-toggle-snowflakes';
 
 type Pairs = SNOWFLAKE_PAIRS & FIREWORK_PAIRS;
@@ -14,8 +14,8 @@ type ServiceWorkerFunctions = {
 const serviceWorkerFunctions: ServiceWorkerFunctions = {
   'SNOWFLAKE/GET': handleGetSnowflakes,
   'SNOWFLAKE/TOGGLE': handleToggleSnowflakes,
-  'FIREWORK/GET': handleGetFireworks,
-  'FIREWORK/TOGGLE': handleToggleFireworks
+  'FIREWORK/GET': handleGetChristmasLights,
+  'FIREWORK/TOGGLE': handleToggleChristmasLights
 };
 
 // NOTE: chrome.runtime.onMessage.addListener callback must return true if you want to send a response from async function

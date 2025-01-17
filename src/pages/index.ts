@@ -1,2 +1,2 @@
-export * from './fireworks';
+export * from './christmas-ligths';
 export * from './snowflakes';

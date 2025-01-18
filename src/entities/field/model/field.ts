@@ -3,57 +3,61 @@ import { Snowflake } from './snowflake';
 class Field {
   private snowflakes: Set<Snowflake> = new Set();
   private isStarted: boolean = false;
-  private context: CanvasRenderingContext2D | null = null;
 
   constructor(
-    private canvas: HTMLCanvasElement,
     private baseXSpeed: number = 0,
     private snowflakeCount: number = 30
-  ) {
-    this.context = this.canvas.getContext('2d');
-    this.initSnowflakes();
-  }
+  ) {}
 
-  private initSnowflakes() {
+  private initSnowflakes(canvas: HTMLCanvasElement) {
     for (let i = 0; i < this.snowflakeCount; i++) {
-      this.snowflakes.add(new Snowflake(this.canvas.width, this.canvas.height, this.baseXSpeed));
+      this.snowflakes.add(new Snowflake(canvas.width, canvas.height, this.baseXSpeed));
     }
   }
 
-  private render() {
-    if (!this.context) return;
+  private render(canvas: HTMLCanvasElement) {
+    const context = canvas.getContext('2d');
 
-    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    if (!context) {
+      return;
+    }
+
+    context.clearRect(0, 0, canvas.width, canvas.height);
 
     this.snowflakes.forEach((snowflake) => {
-      this.context?.beginPath();
+      context?.beginPath();
       const { x, y } = snowflake.getCords();
-      this.context!.strokeStyle = '#EEE';
-      this.context!.font = '20px Arial';
-      this.context?.strokeText('*', x, y);
+      context!.strokeStyle = '#EEE';
+      context!.font = '20px Arial';
+      context?.strokeText('*', x, y);
     });
   }
 
-  private tick() {
+  private tick(canvas: HTMLCanvasElement) {
     this.snowflakes.forEach((snowflake) => {
-      if (snowflake.getCords().y > this.canvas.height) {
+      if (!canvas) {
         this.snowflakes.delete(snowflake);
-        this.snowflakes.add(new Snowflake(this.canvas.width, 10, this.baseXSpeed));
+        return;
+      }
+
+      if (snowflake.getCords().y > canvas.height) {
+        this.snowflakes.delete(snowflake);
+        this.snowflakes.add(new Snowflake(canvas.width, 10, this.baseXSpeed));
         return;
       }
       snowflake.move();
     });
-    this.render();
+    this.render(canvas);
     if (this.isStarted) {
-      requestAnimationFrame(this.tick.bind(this));
+      requestAnimationFrame(this.tick.bind(this, canvas));
     }
   }
 
-  start() {
+  start(canvas: HTMLCanvasElement) {
     this.clear();
-    this.initSnowflakes();
+    this.initSnowflakes(canvas);
     this.isStarted = true;
-    this.tick();
+    this.tick(canvas);
   }
 
   stop() {

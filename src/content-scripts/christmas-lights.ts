@@ -1,8 +1,13 @@
 import { debounce } from '@/shared/lib/utils';
 
-const getChristmasLightsCSS = () => `
+const christmasLightsCSS = `
 <style>
-html, body {
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html, body, .christmasLights {
   background-color: transparent !important;
 }
 
@@ -12,11 +17,11 @@ html, body {
   overflow: hidden;
   position: fixed;
   top: 0;
-  z-index: 10000000;
-  margin: -25px 0 0 0;
+  z-index: 1000000;
+  margin: -26px 0 0 0;
   padding: 0;
   pointer-events: none;
-  width: ${window.innerWidth}px;
+  width: 100vw;
   display: flex;
   justify-content: center;
 }
@@ -84,8 +89,8 @@ html, body {
 
 .christmasLights li:after {
   content: "";
-  top: -18px;
-  left: 7px;
+  top: -16px;
+  left: 5px;
   position: absolute;
   width: 75px;
   height: 18.66667px;
@@ -196,7 +201,7 @@ const updateChristmasLights = debounce(() => {
   christmasLightsElement = document.createElement('iframe');
   christmasLightsElement.style.display = christmasLightsTurnedOn ? 'block' : 'none';
   christmasLightsElement.srcdoc = `
-    ${getChristmasLightsCSS()}
+    ${christmasLightsCSS}
     <ul class="christmasLights">
     ${Array.from({ length: Math.floor(window.innerWidth / 70) }, () => `<li></li>`).join('')}
   </ul>`;
@@ -205,11 +210,13 @@ const updateChristmasLights = debounce(() => {
   christmasLightsElement.style.border = 'none';
   christmasLightsElement.style.overflow = 'hidden';
   christmasLightsElement.style.position = 'fixed';
-  christmasLightsElement.style.width = window.innerWidth + 'px';
+  christmasLightsElement.style.width = `min(100vw, ${window.innerWidth}px)`;
+  christmasLightsElement.style.maxWidth = '100%';
   christmasLightsElement.style.top = '0';
   christmasLightsElement.style.left = '0';
   christmasLightsElement.style.zIndex = '10000000';
   christmasLightsElement.style.pointerEvents = 'none';
+  christmasLightsElement.style.colorScheme = 'xmas-overlay-iframe' + Date.now();
   document.body?.appendChild(christmasLightsElement);
 }, 200);
 window.addEventListener('resize', updateChristmasLights);
@@ -225,3 +232,4 @@ chrome.storage.onChanged.addListener(({ isChristmasLights }) => {
   christmasLightsTurnedOn = isChristmasLights?.newValue ?? false;
   updateChristmasLights();
 });
+

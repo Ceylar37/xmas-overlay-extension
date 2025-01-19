@@ -1,4 +1,4 @@
-import { field as fieldEntity } from '@/entities';
+import { field as fieldEntity, snowflake } from '@/entities';
 import { handleIdle } from '@/shared/lib/utils';
 
 const TRANSITION = 500;
@@ -72,12 +72,11 @@ handleIdle({
   ms: 30e3
 });
 
-chrome.storage.sync.get<Partial<{ isSnowflakes: boolean }>>(['isSnowflakes']).then(({ isSnowflakes }) => {
-  snowflakesTurnedOn = isSnowflakes ?? false;
+snowflake.model.getIsSnowflakes().then((isSnowflakes) => {
+  snowflakesTurnedOn = isSnowflakes;
 });
-chrome.storage.onChanged.addListener(({ isSnowflakes }) => {
-  if (!isSnowflakes) return;
-  snowflakesTurnedOn = isSnowflakes?.newValue ?? false;
+snowflake.model.subscribeToIsSnowflakes((newValue) => {
+  snowflakesTurnedOn = newValue ?? false;
   if (!snowflakesTurnedOn) {
     removeSnowflakes();
   }

@@ -1,3 +1,4 @@
+import { christmasLight } from '@/entities';
 import { debounce } from '@/shared/lib/utils';
 
 const christmasLightsCSS = `
@@ -221,15 +222,12 @@ const updateChristmasLights = debounce(() => {
 }, 200);
 window.addEventListener('resize', updateChristmasLights);
 
-chrome.storage.sync
-  .get<Partial<{ isChristmasLights: boolean }>>(['isChristmasLights'])
-  .then(({ isChristmasLights }) => {
-    christmasLightsTurnedOn = isChristmasLights ?? false;
-    updateChristmasLights();
-  });
-chrome.storage.onChanged.addListener(({ isChristmasLights }) => {
-  if (!isChristmasLights) return;
-  christmasLightsTurnedOn = isChristmasLights?.newValue ?? false;
+christmasLight.model.getIsChristmasLights().then((isChristmasLights) => {
+  christmasLightsTurnedOn = isChristmasLights;
+  updateChristmasLights();
+});
+christmasLight.model.subscribeToIsChristmasLights((newValue) => {
+  christmasLightsTurnedOn = newValue ?? false;
   updateChristmasLights();
 });
 
